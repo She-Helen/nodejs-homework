@@ -2,14 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
-require('dotenv').config({ path: path.join(__dirname, './.env') });
+require('dotenv').config();
 const { contactsRouter } = require('./src/contacts/contact.router.js');
 
 const CrudServer = class {
 
     start() {
         this.initServer();
-        // this.initDatabase();
         this.initMiddlewares();
         this.initRoutes();
         this.initErrorHandling();
