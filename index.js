@@ -1,48 +1,35 @@
-const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
-const cors = require('cors');
-require('dotenv').config({ path: path.join(__dirname, './.env') });
-const { contactsRouter } = require('./src/contacts/contact.router.js');
+const yargs = require('yargs');
+const { listContacts, getContactById, removeContact, addContact } = require('./contacts.js');
 
-const CrudServer = class {
+const argv = yargs
+    .number('id')
+    .string('name')
+    .string('email')
+    .string('action')
+    .string('phone').argv;
 
-    start() {
-        this.initServer();
-        // this.initDatabase();
-        this.initMiddlewares();
-        this.initRoutes();
-        this.initErrorHandling();
-        this.startListening();
-    }
+// TODO: рефакторить
+function invokeAction({ action, id, name, email, phone }) {
+    switch (action) {
+        case 'list':
+            listContacts();
+            break;
 
-    initServer() {
-        this.app = express();
-    }
+        case 'get':
+            getContactById(id)
+            break;
 
-    initMiddlewares() {
-        this.app.use(express.json());
-        this.app.use(morgan('tiny'));
-        this.app.use(cors());
-    }
+        case 'add':
+            addContact(name, email, phone)
+            break;
 
-    initRoutes() {
-        this.app.use('/contacts', contactsRouter)
-    }
+        case 'remove':
+            removeContact(id)
+            break;
 
-    initErrorHandling() {
-        this.app.use((err, req, res, next) => {
-            const statusCode = err.status || 500;
-            return res.status(statusCode).send(err.message);
-        })
-    }
-
-    startListening() {
-        const { PORT } = process.env;
-        this.app.listen(PORT, () => {
-            console.log('Server started listenning on PORT', PORT);
-        })
+        default:
+            console.warn('\x1B[31m Unknown action type!');
     }
 }
 
-new CrudServer().start()
+invokeAction(argv);
