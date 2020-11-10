@@ -54,7 +54,3 @@ const CrudServer = class {
         this.app.listen(PORT, () => {
             console.log('Server started listenning on PORT', PORT);
         })
-    }
-}
-
-new CrudServer().start()
