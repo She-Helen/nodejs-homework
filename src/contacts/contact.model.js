@@ -7,6 +7,6 @@ const contactSchema = new Schema({
     phone: { type: String, required: true },
     subscription: { type: String, required: true },
     password: { type: String, required: true },
-    token: { type: String },
+    token: { type: String, default: '' },
 })
 exports.ContactModel = mongoose.model("Contact", contactSchema, 'contacts')
