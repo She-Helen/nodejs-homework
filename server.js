@@ -1,10 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 require('dotenv').config({ path: path.join(__dirname, './.env') });
+const { authRouter } = require('./src/auth/auth.router.js');
 const { contactsRouter } = require('./src/contacts/contact.router.js');
-const mongoose = require('mongoose');
 
 
 const CrudServer = class {
@@ -40,7 +41,7 @@ const CrudServer = class {
 
     initRoutes() {
         this.app.use('/', contactsRouter)
-        
+        this.app.use('/', authRouter)
     }
 
     initErrorHandling() {
@@ -58,4 +59,3 @@ const CrudServer = class {
     }
 }
 new CrudServer().start()
-//для базы данных контактов
