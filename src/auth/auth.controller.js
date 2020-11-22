@@ -6,7 +6,7 @@ const { UserModel } = require('../users/user.model.js');
 const { Conflict, Unauthorized } = require('../helpers/errors');
 
 exports.registerUser = async (req, res, next) => {
-    try {
+
         const {email, password} = req.body;
         const existUser = await UserModel.findOne({email});
         if (existUser) {
@@ -15,11 +15,8 @@ exports.registerUser = async (req, res, next) => {
         const passwordHash = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
         const user = await UserModel.create({email, passwordHash});
         return res.status(201).send({user: {email, subscription: user.subscription}});
-    }
-    catch (err) {
-        next(err);
-    }
-}
+
+};
 
 exports.loginUser = async (req, res, next) => {
     try {
@@ -41,4 +38,16 @@ exports.loginUser = async (req, res, next) => {
     catch (err) {
         next(err);
     }
-}
+};
+
+exports.logout = async (req, res, next) => {
+    const { user, token } = req;
+  
+    await UserModel.updateOne(
+      { _id: user._id },
+      {
+        $pull: { tokens: token },
+      }
+    );
+    return res.status(204).send();
+  };

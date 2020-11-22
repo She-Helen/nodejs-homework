@@ -6,6 +6,7 @@ const cors = require('cors');
 require('dotenv').config({ path: path.join(__dirname, './.env') });
 const { authRouter } = require('./src/auth/auth.router.js');
 const { contactsRouter } = require('./src/contacts/contact.router.js');
+const { usersRouter } = require('./src/users/users.router.js');
 
 
 const CrudServer = class {
@@ -40,8 +41,9 @@ const CrudServer = class {
     }
 
     initRoutes() {
-        this.app.use('/', contactsRouter)
-        this.app.use('/', authRouter)
+        this.app.use('/contacts', contactsRouter);
+        this.app.use("/auth", authRouter);
+        this.app.use('/users', usersRouter);
     }
 
     initErrorHandling() {

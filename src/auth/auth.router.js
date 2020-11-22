@@ -1,20 +1,14 @@
 const { Router } = require('express');
-const { registerUser, loginUser } = require('./auth.controller.js');
-const {validate} = require('../helpers/validate.middleware.js')
-const { registerUserSchema } = require('./auth.schemes.js')
+const { registerUser, loginUser, logout } = require('./auth.controller.js');
+const {validate} = require('../helpers/validate.middleware.js');
+const { registerUserSchema } = require('./auth.schemes.js');
+const { authorize } = require('../helpers/auth.middleware');
+const { asyncWrapper } = require('../helpers/async-wrapper')
 
 const router = Router();
 
-//CRUD
-router.post('/auth/register', validate(registerUserSchema), registerUser)
-router.post("/auth/login", validate(registerUserSchema), loginUser);
-//router.delete("/sign-out", authorize, authControllerProxy.signOut);
-//router.get('/', getContacts);
-
-//router.get('/:contactId', validate(validateIdSchema, 'params'), getContactById);
-
-//router.patch('/:contactId', validate(validateIdSchema, 'params'), validate(updateUserSchema), updateContact);
-
-//router.delete("/:contactId", validate(validateIdSchema, 'params'), deleteContact);
+router.post('/register', validate(registerUserSchema), asyncWrapper(registerUser))
+router.post("/login", validate(registerUserSchema), loginUser);
+router.post("/logout", authorize, logout);
 
 exports.authRouter = router;

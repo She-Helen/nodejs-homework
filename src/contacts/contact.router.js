@@ -6,14 +6,14 @@ const { addContactSchema, updateContactSchema, validateIdSchema } = require('./c
 const router = Router();
 
 //CRUD
-router.post('/contacts/', validate(addContactSchema), createContact)
+router.post('/', validate(addContactSchema), createContact)
 
-router.get('/contacts/', getContacts);
+router.get('/', getContacts);
 
-router.get('/contacts/:contactId', validate(validateIdSchema, 'params'), getContactById);
+router.get('/:contactId', validate(validateIdSchema, 'params'), getContactById);
 
-router.patch('/contacts/:contactId', validate(validateIdSchema, 'params'), validate(updateContactSchema), updateContact);
+router.patch('/:contactId', validate(validateIdSchema, 'params'), validate(updateContactSchema), updateContact);
 
-router.delete("/contacts/:contactId", validate(validateIdSchema, 'params'), deleteContact);
+router.delete("/:contactId", validate(validateIdSchema, 'params'), deleteContact);
 
 exports.contactsRouter = router;

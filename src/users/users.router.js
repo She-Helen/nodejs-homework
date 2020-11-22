@@ -1,9 +1,9 @@
-// const { Router } = require("express");
-// const { authorize } = require("../helpers/authorize.middleware");
-// const { getCurrentUser } = require("./users.controller");
+const { Router } = require("express");
+const { authorize } = require("../helpers/auth.middleware");
+const { getCurrentUser } = require("./users.controller");
 
-// const router = Router();
+const router = Router();
 
-// router.get("/users/current", authorize, getCurrentUser);
+router.get("/current", authorize, getCurrentUser);
 
-// exports.usersRouter = router;
+exports.usersRouter = router;

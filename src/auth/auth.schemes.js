@@ -11,8 +11,8 @@ exports.updateUserSchema = Joi.object({
     subscription: Joi.string(),
     password: Joi.string(),
     token: Joi.string(),
-})
+});
 
 exports.validateIdSchema = Joi.object({
     contactId: Joi.objectId(),
-})
+});
