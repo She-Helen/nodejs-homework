@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const multer = require("multer");
 const path = require('path');
 const cors = require('cors');
 require('dotenv').config({ path: path.join(__dirname, './.env') });
@@ -9,7 +8,6 @@ const { authRouter } = require('./src/auth/auth.router.js');
 const { contactsRouter } = require('./src/contacts/contact.router.js');
 const { usersRouter } = require('./src/users/users.router.js');
 
-const DRAFT_FILES_PATH = path.join(__dirname, "draft");
 const STATIC_FILES_PATH = path.join(__dirname, "public/images");
 
 const CrudServer = class {
